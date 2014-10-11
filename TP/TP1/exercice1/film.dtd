@@ -1,0 +1,50 @@
+<!-- DTD d'un film  -->
+
+<!--
+<!ELEMENT film  (notes, genres, realisateur , acteurs , description , horaires )> 
+-->
+<!-- Chaque film doit contenir un arbre d'horaire -->
+
+<!ELEMENT film  (notes|genres|realisateur|acteurs|description|horaires)+> 
+
+<!-- Chaque film doit contenir un titre, c'est indique par le mot cle #REQUIRED apres titre -->
+<!ATTLIST film
+        titre 		CDATA 	#REQUIRED       
+	duree 		CDATA 	#REQUIRED
+	annee 	CDATA 	#REQUIRED
+	langue 	CDATA 	#REQUIRED
+	presse 	CDATA 	#IMPLIED
+	spectateurs 	CDATA 	#IMPLIED
+>
+
+
+<!ELEMENT notes (presse?, spectateurs?)>	<!-- Les notes presse et spectateurs sont optionnelles -->
+<!ELEMENT presse (#PCDATA)>
+<!ELEMENT spectateurs (#PCDATA)>
+
+<!ELEMENT genres (genre+)>
+<!ELEMENT genre (#PCDATA)>
+
+<!ELEMENT realisateur  ( nom , prenom )>
+
+<!ELEMENT acteurs  ( acteur+ )>
+<!ELEMENT acteur  ( nom , prenom )>
+
+<!ELEMENT nom  ( #PCDATA )>
+<!ELEMENT prenom  ( #PCDATA )>
+
+<!ELEMENT description  ( #PCDATA )>
+
+<!ELEMENT horaires  ( horaire+ )>           <!-- L'arbre d'horaires doit contenir au moins un horaire -->
+<!ELEMENT horaire  ( jours , heures )>
+
+<!ELEMENT jours  ( jour+ )>
+<!ELEMENT jour  ( #PCDATA )>
+
+<!ELEMENT heures  ( heure+ )>
+<!ELEMENT heure  ( #PCDATA )>
+
+
+
+
+

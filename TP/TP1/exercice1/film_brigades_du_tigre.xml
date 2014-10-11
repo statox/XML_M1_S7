@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<!DOCTYPE film SYSTEM "film.dtd">
+
+<film titre="Les Brigades du Tigre" duree="125" annee="2005" langue="VF" presse="5">
+        <genres>
+	         <genre>Policier</genre>
+        </genres>
+        <notes>
+          <!--<presse>10</presse>-->
+		<spectateurs>5</spectateurs>
+	</notes>
+
+	<realisateur>
+		<nom>Cornuau</nom>
+		<prenom>Jérome</prenom>
+	</realisateur>
+	<acteurs>
+		<acteur>
+			<nom>Cornillac</nom>
+			<prenom>Clovis</prenom>
+		</acteur>
+		<acteur>
+			<nom>Kruger</nom>
+			<prenom>Diane</prenom>
+		</acteur>
+		<acteur>
+			<nom>Baer</nom>
+			<prenom>Edouar</prenom>
+		</acteur>
+	</acteurs>
+	<description>Les aventures du commissaire Valentin et des inspecteurs Terrasson et Pujol, membres des Brigades mobiles, corps spécial de la police française créé avant la Première Guerre mondiale.
+	</description>
+	<horaires>
+		<horaire>
+			<jours>
+				<jour>Mercredi</jour>
+				<jour>Samedi</jour>
+			</jours>
+			<heures>
+				<heure>14h00</heure>
+				<heure>16h40</heure>
+				<heure>19h40</heure>
+				<heure>22h10</heure>
+			</heures>
+		</horaire>
+		<horaire>
+			<jours>
+				<jour>Lundi</jour>
+				<jour>Mardi</jour>
+				<jour>Jeudi</jour>
+				<jour>Vendredi</jour>
+			</jours>
+			<heures>
+				<heure>14h00</heure>
+				<heure>19h40</heure>
+				<heure>22h10</heure>
+			</heures>
+		</horaire>
+		<horaire>
+			<jours>
+				<jour>Dimanche</jour>
+			</jours>
+			<heures>
+				<heure>10h20</heure>
+				<heure>14h00</heure>
+				<heure>16h40</heure>
+				<heure>20h20</heure>
+			</heures>
+		</horaire>
+	</horaires>
+</film>

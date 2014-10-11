@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- XML schéma décrivant bank.xml -->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!-- element racine bank. type_bank defini plus bas -->
+  <xsd:element name="bank" type="type_bank" >
+
+    <!-- idAccount -->
+    <xsd:key name="idAccount">
+      <xsd:selector xpath=".//savings_account | .//checking_account"/>
+      <xsd:field xpath="@id"/>
+    </xsd:key>
+    
+    <!-- ref to idAccount -->
+    <xsd:keyref name="idAccountRef" refer="idAccount">
+      <xsd:selector xpath=".//customer_account"/>
+      <xsd:field xpath="@ac_id"/>
+    </xsd:keyref>
+
+    <!-- idCusotmer -->
+    <xsd:key name="idCustomer">
+      <xsd:selector xpath=".//customer"/>
+      <xsd:field xpath="@id"/>
+    </xsd:key>
+
+    <!-- ref to idCustomer -->
+    <xsd:keyref name="idCustomerRef" refer="idCustomer">
+      <xsd:selector xpath=".//customer_account"/>
+      <xsd:field xpath="@c_id"/>
+    </xsd:keyref>
+
+   </xsd:element>
+ 
+
+  <!-- type bank declarant que la banque doit contenir des comptes, des clients et des liens client/compte -->
+  <xsd:complexType name="type_bank">
+    <xsd:sequence>
+      <xsd:element name="accounts" type="type_accounts" />
+      <xsd:element name="customers" type="type_customers" />
+      <xsd:element name="customer_accounts" type="type_customer_accounts" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  
+    <!--CONTENEUR type accounts: savings_accounts + checking_accounts  -->
+    <xsd:complexType name="type_accounts">
+      <xsd:sequence>
+        <xsd:element name="savings_accounts" type="type_savings_accounts" />
+        <xsd:element name="checking_accounts" type="type_checking_accounts" />
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <!--CONTENEUR type checking_accounts -->
+    <xsd:complexType name="type_checking_accounts">
+      <xsd:sequence>
+        <xsd:element name="checking_account" type="type_checking_account" maxOccurs="unbounded" />
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- CONTENEUR type savings_accounts -->
+    <xsd:complexType name="type_savings_accounts">
+      <xsd:sequence>
+        <xsd:element name="savings_account" type="type_savings_account" maxOccurs="unbounded" />
+      </xsd:sequence>
+    </xsd:complexType>
+ 
+
+    <!-- type balance. CONTENU DANS type_account-->
+    <xsd:simpleType name="type_balance">
+      <xsd:restriction base="xsd:decimal">
+          <xsd:minInclusive value="-5000"/>
+       </xsd:restriction>
+     </xsd:simpleType>
+
+
+    <!-- type account. classe mere de savings_account + checking_account -->
+    <xsd:complexType name="type_account">
+      <xsd:sequence>
+        <xsd:element name="balance" type="type_balance"/><!-- la balance qui fait référence à type_balance --> 
+      </xsd:sequence>
+      <xsd:attribute name="id" type="xsd:ID" use="required"/><!-- attribut account qui doit toujours etre présent --> 
+    </xsd:complexType>
+
+      <!-- type savings. ajoute "interest" à type_account -->
+      <xsd:complexType name="type_savings_account">
+        <xsd:complexContent>
+          <xsd:extension base="type_account">
+            <xsd:attribute name="interest" type="xsd:decimal" use="required"/>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <!-- type checking. ajoute aucune information ni aucune contrainte à type_account -->
+      <xsd:complexType name="type_checking_account">
+        <xsd:complexContent>
+          <xsd:extension base="type_account"/>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+
+  <!-- CONTENEUR. type_customers -->
+  <xsd:complexType name="type_customers">
+    <xsd:sequence>
+      <xsd:element name="customer" type="type_customer" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- type_customer -->
+  <xsd:complexType name="type_customer">
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string" />
+      <xsd:element name="address" type="xsd:string"/>
+    </xsd:sequence>
+    
+    <xsd:attribute name="id" type="xsd:ID" use="required"/> <!-- ID -->
+  </xsd:complexType>
+
+  <!-- CONTENEUR. type_customer_accounts -->
+  <xsd:complexType name="type_customer_accounts" >
+    <xsd:sequence>
+      <xsd:element name="customer_account" type="type_customer_account" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- type customer_account. lie un compte a un client -->
+  <xsd:complexType name="type_customer_account">
+    <xsd:attribute name="c_id" type="xsd:IDREF" />
+    <xsd:attribute name="ac_id" type="xsd:IDREF" />
+  </xsd:complexType>
+
+</xsd:schema>
