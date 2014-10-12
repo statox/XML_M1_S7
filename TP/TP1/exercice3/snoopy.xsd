@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- XML schéma décrivant snoopy.xml -->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!-- root element -->
+  <xsd:element name="book" type="book_type"/>
+
+  <!-- BOOK_TYPE: type of the root element -->
+  <xsd:complexType name="book_type">
+    <xsd:sequence> 
+      <xsd:element name="title"     type="limitedCharacterString"/>
+      <xsd:element name="author"    type="limitedCharacterString"/>
+      <xsd:element name="character" type="character_type"/>
+      <xsd:element name="character" type="character_type"/>
+    </xsd:sequence>
+    <xsd:attribute name="isbn" type="limitedDigitNumber"/>
+  </xsd:complexType>
+
+  <!-- LIMITED CHARACTER STRING: string of max length = 40 chars -->
+  <!-- based on normalizedString to satisfy my maniac side -->
+  <xsd:simpleType name="limitedCharacterString">
+    <xsd:restriction base="xsd:normalizedString">
+      <xsd:maxLength value="40" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <!-- LIMITED DIGIT NUMBER: number of max length = 10 digits -->
+  <!-- based on string and regex. -->
+  <!-- TODO: see how to do it with non negative int -->
+  <xsd:simpleType name="limitedDigitNumber" >
+    <xsd:restriction base="xsd:NMTOKEN" > <!-- to avoid spaces and special characters (useless because of the folowing regex) -->
+      <xsd:pattern value="[0-9]{10}" /> <!-- the regex is: only characters between 0 and 9, repeated exactly 10 times -->
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <!-- CHARACTER TYPE: description of a character -->
+  <xsd:complexType name="character_type">
+    <xsd:sequence>
+      <xsd:element name="name"          type="limitedCharacterString"/>
+      <xsd:element name="friend-of"     type="limitedCharacterString" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="since"         type="xsd:date" />
+      <xsd:element name="qualification" type="xsd:string" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>
