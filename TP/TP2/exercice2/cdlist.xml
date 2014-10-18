@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated document to test xpath requests -->
+
+<!DOCTYPE CDlist SYSTEM "cdlist.dtd">
+<CDlist>
+  
+  <CD>
+    <composer>composer 1</composer>
+    <performance>
+      <composition>composition 1</composition>
+      <soloist>soloist 1</soloist>
+      <soloist>soloist 2</soloist>
+      <orchestra>London Symphony Orchestra</orchestra>
+      <conductor>Maestro 1</conductor>
+    </performance>
+    <publisher>Pub 1</publisher>
+    <length>70</length>
+  </CD>
+  
+  <CD>
+    <composer>composer 2</composer>
+    <performance>
+      <composition>composition 2</composition>
+      <soloist>soloist 3</soloist>
+      <orchestra>London Symphony Orchestra</orchestra>
+      <conductor>Maestro 2</conductor>
+    </performance>
+    <publisher>Pub 2</publisher>
+    <length>70</length>
+  </CD>
+  
+  <CD>
+    <composer>composer 3</composer>
+    <performance>
+      <composition>composition 3.1</composition>
+      <soloist>soloist 4</soloist>
+      <soloist>soloist 5</soloist>
+      <orchestra>London Symphony Orchestra</orchestra>
+      <conductor>Maestro 3</conductor>
+    </performance>
+    <performance>
+      <composition>composition 3.2</composition>
+      <soloist>soloist 6</soloist>
+      <orchestra>AB Orchestra</orchestra>
+      <conductor>AB Conductor</conductor>
+    </performance>
+    <publisher>Deutsche Grammophon</publisher>
+  </CD>
+
+  <CD>
+    <composer>composer 4</composer>
+    <performance>
+      <composition>composition 4</composition>
+      <orchestra>Paris Symphony Orchestra</orchestra>
+      <conductor>Maestro 2</conductor>
+    </performance>
+    <publisher>Deutsche Grammophon</publisher>
+    <length>70</length>
+  </CD>
+
+  <CD>
+    <composer>composer 5</composer>
+    <performance>
+      <composition>composition 5</composition>
+      <orchestra>London Symphony Orchestra</orchestra>
+      <orchestra>New York Symphony Orchestra 2</orchestra>
+      <conductor>Maestro 2</conductor>
+    </performance>
+    <publisher>Pub 2</publisher>
+    <length>70</length>
+  </CD>
+
+
+</CDlist>
