@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE books SYSTEM "TestDOM.dtd">
+<books>
+	<book>
+		<title>l'enfant prodige</title>
+		<author>Dupont</author>
+		<section>
+			<title>section enfant</title>
+			<p>chapitre</p>
+			<figure width="122" height="25">
+				<title>image de l'enfant solitaire</title>
+				<image source="larousse"/>
+			</figure>
+		</section>
+		<section difficulty="moyen">
+			<title>comportement</title>
+			<p>chapitre</p>
+			<figure width="122" height="25">
+				<title>Comment détecter les talents</title>
+				<image source="larousse"/>
+			</figure>
+		</section>
+	</book>
+	
+	<book>
+		<title>l'ingenieur prodige</title>
+		<author>azrubal</author>
+		<section difficulty="simple" id="modestie">
+			<title>Le travail de l'ingénieur</title>
+			<p>chapitre</p>
+			<figure width="45" height="444">
+				<title>ingenieur</title>
+				<image source="epfl"/>
+			</figure>
+		</section>
+		<section difficulty="simple" >
+			<title>Faire croire que l'on bosse bien</title>
+			<p>chapitre</p>
+			<figure width="45" height="444">
+				<title>ingenieur</title>
+				<image source="epfl"/>
+			</figure>
+		</section>
+		
+	</book>
+	<book>
+		<title>XML et DOM</title>
+		<author>Wassel</author>
+		<section difficulty="complexe" id="premiere rangée">
+			<title>API DOM</title>
+			<figure width="211" height="254">
+				<title>Techniques de base</title>
+				<image source="ibformation"/>
+			</figure>
+		</section>
+		<section difficulty="complexe" id="premiere rangée">
+			<title>Critique de DOM</title>
+			<figure width="211" height="254">
+				<title>Performances</title>
+				<image source="ibformation"/>
+			</figure>
+		</section>
+		
+	</book>
+	<book>
+		<title>XML et SAX</title>
+		<author>Apache Foundation</author>
+		<section difficulty="simple" id=" 3 eme rangée">
+			<title>chapitre1</title>
+			<figure width="211" height="254">
+				<title>Introduction à SAX</title>
+				<image source="apache.org"/>
+			</figure>
+		</section>
+	</book>
+</books>

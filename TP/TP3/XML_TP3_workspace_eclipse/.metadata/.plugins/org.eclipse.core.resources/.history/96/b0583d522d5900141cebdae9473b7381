@@ -1,0 +1,116 @@
+package ex1;
+
+/*
+ * Created on 26 nov. 2003
+ * 
+ * To change the template for this generated file go to Window - Preferences -
+ * Java - Code Generation - Code and Comments
+ * 
+ *  Modified on 20 oct. 2014 - Adrien Fabre
+ *  Purpose: XML TP3
+ */
+
+import java.io.*;
+import org.w3c.dom.*;
+import org.xml.sax.*;
+import javax.xml.parsers.*;
+
+public class parser {
+
+	public PrintWriter out = null;
+
+	//Rem changer Package par ModelElement
+	public void parse(String _fichier)
+		throws SAXException, ParserConfigurationException, IOException {
+
+		// Charger le document
+		FileInputStream _xml_input_file = new FileInputStream(_fichier);
+
+		parse(_xml_input_file);
+	}
+
+	public void parse(InputStream _xml_input_file)
+		throws SAXException, ParserConfigurationException, IOException {
+
+		//création du fichier output
+		out = new PrintWriter( new FileOutputStream("./output.html") );
+		out.println("<html xmlns:fo=\"http://www.w3.org/1999/XSL/Format\">");
+		out.println("<head>");
+		out.println("<title>Your library</title>");
+		out.println("<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
+		out.println("</head>");
+		out.println("<body>");
+		out.println("<h1 align=\"left\">Domaines </h1>");
+		
+
+				
+		//instancier le contrcuteur de parseurs
+		DocumentBuilderFactory _factory = DocumentBuilderFactory.newInstance();
+
+		//ignorer les commentaires dans les fichiers XML parsés
+		_factory.setIgnoringComments(true);
+		
+		// créer un parseur
+		DocumentBuilder _builder = _factory.newDocumentBuilder();
+
+		// Charger le document
+		Document doc = _builder.parse(_xml_input_file);
+
+		// Parser le document
+		/* PARTIE A REMPLIR 
+		*/
+		
+//		//Affiche la version de XML
+//		System.out.println(doc.getXmlVersion());
+//		//Affiche l'encodage
+//		System.out.println(doc.getXmlEncoding());  
+//		//Affiche s'il s'agit d'un document standalone      
+//		System.out.println(doc.getXmlStandalone());
+
+		
+		createHTML(doc, out);
+		
+		out.close();
+		out.flush();
+	}
+
+	public void DomaineTemplate(Element domaine, String name) {
+		out.println("<table width=\"100%\" border=\"1\">");
+		out.println("	<tr>");
+		out.println("   	<td width=\"100%\" bgcolor=\"#C0C0C0\">");
+		out.println(
+			"			<h2><a name=\"" + name + "\">" + name + "</a></h2>");
+		out.println("		</td>");
+		out.println("	</tr>");
+		out.println("</table>");
+	}
+	
+	public void createHTML (Document doc, PrintWriter out){
+
+		// get the root element of he document
+		Element root = doc.getDocumentElement();
+		
+		NodeList rootNodeList = root.getChildNodes();
+		
+		for (int i = 0; i<rootNodeList.getLength(); i++) {
+			
+			if(rootNodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
+		        Node domainNode = rootNodeList.item(i);
+		        NodeList domainChildList = domainNode.getChildNodes();
+		        
+		        
+		        for (int j=0; j<domainChildList.getLength(); j++){
+		        	if (domainChildList.item(j).getNodeType() == Node.ELEMENT_NODE){
+		        		Node domainChild = domainChildList.item(j);
+		        		if (domainChild.getNodeName() == "title"){
+		        			DomaineTemplate((Element)domainChild, domainChild.getTextContent());
+		        		}
+//		        		System.out.println(domainChild.getNodeName() + "   " + domainChild.getTextContent());
+		        	}
+		        }
+		        
+		    }	
+		}
+	}
+	
+}

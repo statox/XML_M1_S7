@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--!DOCTYPE bibliotheque SYSTEM "C:\jwsdp-1.2\jaxb\bin\bib1.dtd" -->
+<!DOCTYPE bibliotheque SYSTEM "test10.dtd">
+<bibliotheque>
+	<livre>
+		<auteur>Socrate</auteur>
+		<date_sortie>10-10-2000</date_sortie>
+		<nbre_page>62</nbre_page>
+	</livre>
+	<livre>
+		<auteur>Marceau</auteur>
+		<date_sortie>11-10-2000</date_sortie>
+		<nbre_page>50</nbre_page>
+	</livre>
+	<livre>
+		<auteur>La fontaine</auteur>
+		<date_sortie>12-10-2000</date_sortie>
+		<nbre_page>100</nbre_page>
+	</livre>
+</bibliotheque>
