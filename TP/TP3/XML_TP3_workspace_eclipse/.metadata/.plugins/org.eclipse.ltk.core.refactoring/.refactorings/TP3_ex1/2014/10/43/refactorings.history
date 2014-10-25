@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 elements to &apos;TP3_ex1_DOM/src/ex1&apos;&#x0A;- Original project: &apos;TP3_ex1&apos;&#x0A;- Destination element: &apos;TP3_ex1_DOM/src/ex1&apos;&#x0A;- Original elements:&#x0A;     ex1.Transf.java&#x0A;     ex1.parser.java" description="Copy compilation units" destination="=TP3_ex1_DOM/src&lt;ex1" element1="/src&lt;ex1{Transf.java" element2="/src&lt;ex1{parser.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1414221040511" units="2" version="1.0"/>
+</session>

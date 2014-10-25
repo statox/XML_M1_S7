@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE list [ 
+	<!ELEMENT list (man | woman)*>
+	<!ELEMENT man (sons, daughters)>
+	<!ATTLIST man name CDATA #REQUIRED>
+	<!ELEMENT woman (sons, daughters)>
+	<!ATTLIST woman name CDATA #REQUIRED>
+	<!ELEMENT sons (man)*>
+	<!ELEMENT daughters (woman)*>
+]>
+
+<list>
+	<person gender="M">
+		<name>Julien</name>
+		<children>
+			<person gender="F">
+				<name>Sophie</name>
+				<children/>
+			</person>
+	
+			<person gender="F">
+				<name>Ursule</name>
+				<children/>
+			</person>
+		</children>
+	</person>
+
+	<person gender="F">
+		<name>Marie</name>
+		<children>
+			<person gender="M">
+				<name>Joseph</name>
+				<children>
+					<person gender="F">
+					<name>Marie</name>
+					<children/>
+					</person>
+				</children>
+			</person>
+		</children>
+	</person>
+</list>
+

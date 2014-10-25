@@ -6,7 +6,7 @@ package ex1;
  * To change the template for this generated file go to Window - Preferences -
  * Java - Code Generation - Code and Comments
  * 
- *  Modified on 20 oct. 2014 - Adrien Fabre
+ *  Modified on 25 oct. 2014 - Adrien Fabre
  *  Purpose: XML TP3
  */
 
