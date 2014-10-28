@@ -16,23 +16,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+
 
 public class parser {
 
@@ -62,22 +59,8 @@ public class parser {
 		// Charger le document
 		Document doc = _builder.parse(_xml_input_file);
 
-		
-		try {
-//			printToConsole(toWriter(doc));
-//			printtoFile(toWriter(doc));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		// creation of the new document
 		transform(doc);
-
-		try {
-//			printToConsole(toWriter(doc));
-//			printtoFile(toWriter(doc));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
 	}
 	
@@ -88,62 +71,37 @@ public class parser {
 		// Getting the persons under root node
 		NodeList personList = doc.getDocumentElement().getChildNodes();
 		
-		for (int i=0; i<personList.getLength(); ++i){
-			Node n = personList.item(i);
-			if (n.getNodeType() == Element.ELEMENT_NODE){
-				if (n.getAttributes().item(0).toString().equals("gender=\"M\"")){
-					manTemplate(n);
-				} else if (n.getAttributes().item(0).toString().equals("gender=\"F\"")) {
-					womanTemplate(n);
-				} else {
-					System.out.println("Error: Wrong XML structure. Exit");
-					return -1;
+		// the resulting file
+		PrintWriter out;
+		try {
+			out = new PrintWriter( new FileOutputStream("./gender-sorted.xml") );
+			
+			// insertion of the DTD
+			insertDTD(out);
+			
+			out.println("<list>");
+			
+			// for each node containting a person, we transform it
+			for (int i=0; i<personList.getLength(); ++i){
+				Node n = personList.item(i);
+				
+				if (isElementNode(n)){
+					personTemplate(out, n, 0);
 				}
+			}		
+			
+			out.println("</list>");
+	        out.close();
+	        out.flush();
+	        	        
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
-
-			}
-		}		
-		
 		return 0;
 	}
 	
-
-	public void manTemplate(Node n){
-		System.out.println(n.getTextContent());
-	}
-	
-	public void womanTemplate (Node n){
-		System.out.println(n.getTextContent());		
-	}
-	
-	// utility to delete a selected node
-	public void deleteNode (Document doc, Node node){
-		node.getParentNode().removeChild(node);
-		doc.normalize();
-	}
-	
-	// utility to put the document in a writer to print it somewhere
-	public static final Writer toWriter(Document xml) throws Exception {
-        Transformer tf = TransformerFactory.newInstance().newTransformer();
-        tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        tf.setOutputProperty(OutputKeys.INDENT, "yes");
-        Writer out = new StringWriter();
-        tf.transform(new DOMSource(xml), new StreamResult(out));
-        
-        return out;
-        
-    }
-	
-	// print the document on the screen
-	public void printToConsole (Writer out){
-		System.out.println(out.toString());
-	}
-	
-	// print the document on a physical file
-	// We use this function to integrate the internal DTD into the file
-	public void printtoFile (Writer out){
-		PrintWriter outFile;
-		
+	public void insertDTD (PrintWriter out){
 		String XMLDeclaration = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
 		String internalDTD = "<!DOCTYPE list [ "
 				+ "\n\t<!ELEMENT list (man | woman)*>"
@@ -154,18 +112,118 @@ public class parser {
 				+ "\n\t<!ELEMENT sons (man)*>"
 				+ "\n\t<!ELEMENT daughters (woman)*>"
 				+ "\n]>\n\n";
-		
-		String fileContent = out.toString().replace(XMLDeclaration, XMLDeclaration + internalDTD);
-				
-		try {
-			outFile = new PrintWriter( new FileOutputStream("./result.xml") );
+		out.print(XMLDeclaration);
+		out.print(internalDTD);
+	}
+	
+	// This template is used to write a new element man or woman in the new xml
+	// It is recursively called to write the children
+	// the integer indent is used to correctly indent each element (incremented at each recursive call)
+	public void personTemplate(PrintWriter out, Node person, int indent){		
 			
-			outFile.println(fileContent);
-	        
-	        outFile.close();
-	        outFile.flush();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}        
+		// These nodes contains the node name and the node children of a man
+		// (We know their index in the child list thanks to a test)
+		Node name 		= person.getChildNodes().item(1);
+		Node children 	= person.getChildNodes().item(3);
+		
+		
+		System.out.println("\nOn traite " + name.getTextContent());
+		
+		// The two next lists will contains the sons and daughter of the people in the current node
+		List<Node> sons 		= new ArrayList<Node>();
+		List<Node> daughters	= new ArrayList<Node>();
+		
+		// Sorting the children in the lists
+		NodeList childrenList = children.getChildNodes();
+		
+		
+		for (int i=0; i<childrenList.getLength(); ++i){
+			Node n 		= childrenList.item(i);
+					
+			if (isElementNode(n)){
+				int gender 	= getGender(n);
+								
+				if (gender == 1){
+					daughters.add(n);
+				} else if (gender == -1){
+					sons.add(n);
+				}
+			}
+		}	
+		
+		System.out.println("Cette personne a " + sons.size() + " fils");
+		System.out.println("Cette personne a " + daughters.size() + " fille");
+		
+		// indenting string
+		String indt = "\t";
+		
+		for (int i=0; i<indent; ++i){
+			indt = indt + "\t";
+		}
+		String indt2 = indt + "\t";
+		
+		// getting the gender of the current person
+		int personGender = getGender(person);
+		String gender = new String();
+		if (personGender==-1){
+			gender="man";
+			System.out.println("Cette personne est un homme");
+		}else{
+			gender="woman";
+			System.out.println("Cette personne est une femme");
+		}
+		
+		
+		// printing in the file the new person and the children
+		// note the use od the strings indt and indt2
+		out.println(indt 	+ "<" + gender + " name=\"" + name.getTextContent() + "\">");
+		out.println(indt2 	+ "<sons>");
+		
+		for (Node s : sons){
+			personTemplate(out, s, indent+2);
+		}
+		
+		out.println(indt2 	+ "</sons>");
+		out.println(indt2 	+ "<daughters>");
+		
+		for (Node d : daughters){
+			personTemplate(out, d, indent+2);
+		}
+		
+		out.println(indt2 	+ "</daughters>");
+		out.println(indt 	+ "</" + gender + ">");
+					
+		out.println();
+	}
+	
+	
+	// This method simply test is the node is of type Element.ELEMENT_NODE
+	// return 	true 	if it is
+	//			false 	if not
+	public boolean isElementNode (Node n){
+		return (n.getNodeType() == Element.ELEMENT_NODE);
+	}
+	
+	// This method return the gender contained in the attribute of a node
+	// If the node doesn't have an attribute named 'gender' or as an attribute 'gender' which doesn't contains 'M' or 'F' it return an error
+	// return:	1 	for a woman
+	//			-1 	for a man
+	//			0 	for an error
+	public int getGender (Node n){
+		
+		if (n.getNodeType() == Element.ELEMENT_NODE){
+			if(isElementNode(n)){
+			
+				if (n.getAttributes().item(0).toString().equals("gender=\"M\"")){
+					return -1;
+				} else if (n.getAttributes().item(0).toString().equals("gender=\"F\"")) {
+					return 1;
+				} else {
+					System.out.println("Error: Wrong XML structure. Can not define the gender");
+					return 0;
+				}
+			}
+		}
+		return 0;
 	}
 }
