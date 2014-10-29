@@ -10,10 +10,21 @@ package ex1;
  *  Purpose: XML TP3
  */
 
-import java.io.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
-import javax.xml.parsers.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class parser {
 
@@ -57,9 +68,7 @@ public class parser {
 		Document doc = _builder.parse(_xml_input_file);
 
 		// Parser le document
-		/* PARTIE A REMPLIR 
-		*/
-		
+			
 //		//Affiche la version de XML
 //		System.out.println(doc.getXmlVersion());
 //		//Affiche l'encodage
@@ -76,12 +85,14 @@ public class parser {
 		out.flush();
 	}
 
+	// This is the main transforming method
+	// It get the root element and call template methods to treat them
 	public void createHTML (Document doc){
 
 		// get the root element of he document (Here it's <bib>)
 		Element root = doc.getDocumentElement();
 		
-	
+		// get the children of the root node
 		NodeList rootNodeList = root.getChildNodes();
 		
 				
@@ -126,6 +137,7 @@ public class parser {
 	}
 	
 	// Create this list on top of the document
+	// NB: The titles with a space caracter in in doesn't seem to work and I don't know why
 	public void DomainListTemplate(String name){
 		out.println("	<h2><a href=#" + name + ">" + name + "</a></h2>");
 	}
@@ -143,7 +155,7 @@ public class parser {
 		out.println("	<hr>");
 	}
 	
-	
+	// Create the content of each part containing a book
 	public void BibRefTemplate(Node bibRef){
 		NodeList bibRefContent = bibRef.getChildNodes();
 		String title = "", year = "", author = "", link = "";

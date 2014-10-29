@@ -81,7 +81,7 @@ public class parser {
 			
 			out.println("<list>");
 			
-			// for each node containting a person, we transform it
+			// for each node containing a person, we transform it
 			for (int i=0; i<personList.getLength(); ++i){
 				Node n = personList.item(i);
 				

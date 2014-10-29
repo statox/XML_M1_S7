@@ -116,6 +116,7 @@ public class parser {
 		}while (again);
 	}
 	
+	// Method called when the user want to get the content of a given element
 	// recursive method to iterate through all the nodes of the Document
 	public void readElement (Node node, String name){
 		
@@ -135,6 +136,7 @@ public class parser {
 	    }
 	}	
 	
+	// Method called when the user want to delete a given element
 	// iterative method to iterate through all the nodes of the Document
 	public void deleteElement (Document doc, String name){
 		// getting the elements matching the requested one

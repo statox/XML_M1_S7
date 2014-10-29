@@ -29,7 +29,7 @@ public class Transf {
 			System.out.println("debut");
 			parser parseur  = new parser();
 			
-			String filename = "./bib.xml";
+			String filename = "./mail.xml";
 			
 			parseur.parse(filename);		
 			
